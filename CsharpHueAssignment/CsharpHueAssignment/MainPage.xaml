@@ -9,6 +9,8 @@
     RequestedTheme="Dark">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBox Name ="textBox" Width="100" Height="40" Text=""/>
+        <StackPanel>
+            <Button Height="80" Width="80"/>
+        </StackPanel>
     </Grid>
 </Page>
