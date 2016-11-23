@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using Newtonsoft.Json;
+using CsharpHueAssignment.Connection;
+using CsharpHueAssignment.HueInterface;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -26,6 +28,10 @@ namespace CsharpHueAssignment
     {
         public MainPage()
         {
+            var connection = new Connection.Connection(8000);
+            var bridge = new Bridge(connection, $"http://localhost:{connection.Port}");
+            var username = bridge.Username;
+
             this.InitializeComponent();
         }
     }

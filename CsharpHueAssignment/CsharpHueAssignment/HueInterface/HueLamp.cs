@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsharpHueAssignment.Connection
+namespace CsharpHueAssignment.HueInterface
 {
-    class tsss
+    class HueLamp
     {
+
     }
 }

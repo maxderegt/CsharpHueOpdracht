@@ -96,7 +96,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorUtil.cs" />
-    <Compile Include="Connection\tsss.cs" />
+    <Compile Include="Connection\Connection.cs" />
+    <Compile Include="HueInterface\Bridge.cs" />
+    <Compile Include="HueInterface\HueLamp.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
