@@ -10,7 +10,11 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
-            <Button Height="80" Width="80"/>
+            <StackPanel Margin="10,10,10,10" HorizontalAlignment="Stretch">
+                <Button Content="Local" Click="ConnectToBridgeButton" HorizontalAlignment="Stretch"/>
+                <Button Content="PlaceHolderBridgeIp" HorizontalAlignment="Stretch">
+                </Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
