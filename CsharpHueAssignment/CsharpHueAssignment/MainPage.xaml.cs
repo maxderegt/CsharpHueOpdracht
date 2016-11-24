@@ -28,9 +28,7 @@ namespace CsharpHueAssignment
     {
         public MainPage()
         {
-            var connection = new Connection.Connection(8000);
-            var bridge = new Bridge(connection, $"http://localhost:{connection.Port}");
-            var username = bridge.Username;
+            var bridge = new Bridge($"http://localhost:8000");
 
             this.InitializeComponent();
         }

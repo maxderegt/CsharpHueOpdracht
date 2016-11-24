@@ -19,7 +19,7 @@ namespace CsharpHueAssignment.Connection
         /// <param name="uri"></param>
         /// <param name="body"></param>
         /// <param name="handleMessage"></param>
-        public static async void PostAsync(string uri, dynamic body, HandleMessage handleMessage)
+        public static async Task PostAsync(string uri, dynamic body, HandleMessage handleMessage)
         {
             var httpClient = new HttpClient();
 
@@ -32,7 +32,7 @@ namespace CsharpHueAssignment.Connection
 
             var responseString = await responseMessage.Content.ReadAsStringAsync();
             
-            handleMessage(JsonConvert.SerializeObject(responseString));
+            handleMessage(JsonConvert.DeserializeObject(responseString));
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace CsharpHueAssignment.Connection
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="handleMessage"></param>
-        public static async void GetAsync(string uri, HandleMessage handleMessage)
+        public static async Task GetAsync(string uri, HandleMessage handleMessage)
         {
             var httpClient = new HttpClient();
 
@@ -48,7 +48,7 @@ namespace CsharpHueAssignment.Connection
 
             var responseMessage = await httpClient.GetStringAsync(httpUri);
 
-            handleMessage(JsonConvert.SerializeObject(responseMessage));
+            handleMessage(JsonConvert.DeserializeObject(responseMessage));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace CsharpHueAssignment.Connection
         /// <param name="uri"></param>
         /// <param name="body"></param>
         /// <param name="handleMessage"></param>
-        public static async void PutAsync(string uri, dynamic body, HandleMessage handleMessage)
+        public static async Task PutAsync(string uri, dynamic body, HandleMessage handleMessage)
         {
             var httpClient = new HttpClient();
 
@@ -70,7 +70,7 @@ namespace CsharpHueAssignment.Connection
 
             var responseString = await responseMessage.Content.ReadAsStringAsync();
 
-            handleMessage(JsonConvert.SerializeObject(responseString));
+            handleMessage(JsonConvert.DeserializeObject(responseString));
         }
     }
 }

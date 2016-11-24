@@ -11,47 +11,46 @@ namespace CsharpHueAssignment.HueInterface
 {
     public class Bridge
     {
+        public List<HueLamp> Lamps;
         public string Username { get; set; }
-        private Connection.Connection _connection { get; set; }
+        public string Ip { get; set; }
+        private int _lampIndex;
 
         /// <summary>
         /// Constructor for the bridge, also sets up an acount with the bridge of the lamp
         /// </summary>
-        public Bridge(Connection.Connection connection, string ip)
+        public Bridge(string ip)
         {
-            _connection = connection;
-            _connection.Post($"{ip}/api",new {devicetype = $"MyApp#HueController"});
-
-            Debug.WriteLine("hello world");
+            Lamps = new List<HueLamp>();
+            _lampIndex = 1;
+            Ip = ip;
+            SetupUserNameAsync();
         }
 
-        private void ReceiveAnswer()
+        private async void SetupUserNameAsync()
         {
-            while (true)
-            {
-                foreach (var message in _connection.MessageBuffer)
-                {
-                    var deserialisedMessage = JsonConvert.DeserializeObject(message);
-
-                    if (IsSuccesMessage(deserialisedMessage))
-                    {
-                        Username = deserialisedMessage.success.username;
-                    }
-                }
-            }
+            await Connection.Connection.PostAsync($"{Ip}/api",new {devicetype = $"MyApp#HueController"}, GetUserName);
+            
+            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
         }
 
-        private bool IsSuccesMessage(dynamic message)
+        private async void GetLampData(dynamic message)
         {
-            try
-            {
-                var temp = message.success;
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Debug.WriteLine($"Received lamp data: {message}");
+
+            var lamp = HueLamp.ParseLamp(message);
+            if(lamp == null) return;
+            Lamps.Add(lamp);
+
+            _lampIndex++;
+            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
+            Debug.WriteLine($"Lamps: {Lamps.Count}");
+        }
+
+        private void GetUserName(dynamic message)
+        {
+            Username = message[0].success.username;
+            Debug.WriteLine($"Assigned username: {Username}");
         }
     }
 }
