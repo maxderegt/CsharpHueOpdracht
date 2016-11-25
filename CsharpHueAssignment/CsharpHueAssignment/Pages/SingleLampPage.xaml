@@ -9,9 +9,8 @@
     RequestedTheme="Dark">
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
         <StackPanel>
-            <Button Click="BackButton" FontFamily="Segoe UI Symbol" FontSize="30" Background="Transparent" Content="&#57618;"/>
+            <Button Margin="10,10,0,0" Click="BackButton" FontFamily="Segoe UI Symbol" FontSize="40" Background="Transparent" Content="&#57618;" HorizontalAlignment="Left"/>
         </StackPanel>
         <StackPanel Margin="20,0,20,0">
             <TextBlock Margin="0,10,0,10" Text="Hue" FontSize="20" HorizontalAlignment="Center"></TextBlock>

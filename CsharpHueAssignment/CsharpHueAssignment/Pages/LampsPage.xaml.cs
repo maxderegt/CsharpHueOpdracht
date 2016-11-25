@@ -27,6 +27,7 @@ namespace CsharpHueAssignment.Pages
     public sealed partial class LampsPage : Page
     {
         public Bridge Bridge;
+        public bool InMultiSelectMode { get; set; }
 
         public LampsPage()
         {
@@ -51,6 +52,19 @@ namespace CsharpHueAssignment.Pages
             var templamp = (Button) sender;
             HueLamp lamp = (HueLamp) templamp.DataContext;
             Frame.Navigate(typeof(SingleLampPage),lamp);
+        }
+
+        private void BackButton(object sender, RoutedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+            }
+        }
+
+        private void CheckBoxButton(object sender, RoutedEventArgs e)
+        {
+            InMultiSelectMode = !InMultiSelectMode;
         }
     }
 }
