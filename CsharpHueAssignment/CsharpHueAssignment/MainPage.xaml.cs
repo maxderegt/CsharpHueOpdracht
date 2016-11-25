@@ -50,7 +50,7 @@ namespace CsharpHueAssignment
             catch (Exception exception)
             {
                 var messageDialog = new MessageDialog(
-                    "The application was unable to connect to the selected bridge...",
+                    /*"The application was unable to connect to the selected bridge..."*/exception.StackTrace,
                     "Failed to connect to selected bridge");
                 await messageDialog.ShowAsync();
             }

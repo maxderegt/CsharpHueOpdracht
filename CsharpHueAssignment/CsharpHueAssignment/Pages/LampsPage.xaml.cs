@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,20 +26,29 @@ namespace CsharpHueAssignment.Pages
     /// </summary>
     public sealed partial class LampsPage : Page
     {
-        public ObservableCollection<HueLamp> HueLamps { get; set; }
         public Bridge Bridge;
 
-        public LampsPage(Bridge bridge)
+        public LampsPage()
         {
             this.InitializeComponent();
-            HueLamps = new ObservableCollection<HueLamp>();
-            Bridge = bridge;
-            if (bridge == null) Frame.Navigate(typeof(SingleLampPage));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            try
+            {
+                Bridge = e.Parameter as Bridge;
+                DataContext = Bridge.Lamps;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.StackTrace);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(SingleLampPage));
+            Frame.Navigate(typeof(SingleLampPage),Bridge.Lamps[0]);
         }
     }
 }

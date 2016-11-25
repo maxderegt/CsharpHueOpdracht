@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -28,16 +29,29 @@ namespace CsharpHueAssignment.Pages
     {
         public HueLamp HueLamp { get; set; }
 
-        public SingleLampPage(HueLamp hueLamp)
+        public SingleLampPage()
         {
-            HueLamp = hueLamp;
-
-            HueSlider.Value = HueLamp.Hue;
-            SaturationSlider.Value = HueLamp.Saturation;
-            BrightnessSlider.Value = HueLamp.Brightness;
-            ColorTemperatureSlider.Value = HueLamp.Ct;
 
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            try
+            {
+                HueLamp = e.Parameter as HueLamp;
+
+                HueSlider.Value = HueLamp.Hue;
+                SaturationSlider.Value = HueLamp.Saturation;
+                BrightnessSlider.Value = HueLamp.Brightness;
+                ColorTemperatureSlider.Value = HueLamp.Ct;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.StackTrace);   
+            }
+
+
         }
 
         private void BackButton(object sender, RoutedEventArgs e)
