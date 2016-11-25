@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace CsharpHueAssignment.HueInterface
 {
     public class Bridge
     {
-        public LampList Lamps { get; set; } // A list containing all currently known lamps
+        public ObservableCollection<HueLamp> Lamps { get; set; } // A list containing all currently known lamps
         public string Username { get; set; }
         public string Ip { get; set; }
         private int _lampIndex; // Used for requesting lamps. Should not be touched by anything else.
@@ -24,7 +25,7 @@ namespace CsharpHueAssignment.HueInterface
         /// </summary>
         public Bridge(string ip)
         {
-            Lamps = new LampList();
+            Lamps = new ObservableCollection<HueLamp>();
             _lampIndex = 1;
             Ip = ip;
         }
@@ -58,7 +59,6 @@ namespace CsharpHueAssignment.HueInterface
                 return;
             }
             Lamps.Add(lamp);
-            Lamps.NotifyPropertyChanged("Count"); // Tell the GUI thath the count property is updated
 
             _lampIndex++;
             await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
