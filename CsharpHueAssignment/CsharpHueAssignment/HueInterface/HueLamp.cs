@@ -15,8 +15,8 @@ namespace CsharpHueAssignment.HueInterface
         public int Hue { get; set; }
         public int Saturation { get; set; }
         public float[] Xy { get; set; } // Don't know what this is for
-        public int Ct { get; set; } // Don't know what this is for
-        public bool Reachable { get; set; } // Don't know what this is for
+        public int Ct { get; set; } // Color temperature
+        public bool Reachable { get; set; } // wether the light can be reached by the bridge
         public string Name { get; set; }
         public string ModelId { get; set; }
         public string SwVersion { get; set; }

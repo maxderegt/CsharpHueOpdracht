@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CsharpHueAssignment.HueInterface;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,9 +23,26 @@ namespace CsharpHueAssignment.Pages
     /// </summary>
     public sealed partial class SingleLampPage : Page
     {
-        public SingleLampPage()
+        public HueLamp HueLamp { get; set; }
+
+        public SingleLampPage(HueLamp hueLamp)
         {
+            HueLamp = hueLamp;
+
+            HueSlider.Value = HueLamp.Hue;
+            SaturationSlider.Value = HueLamp.Saturation;
+            BrightnessSlider.Value = HueLamp.Brightness;
+            ColorTemperatureSlider.Value = HueLamp.Ct;
+
             this.InitializeComponent();
+        }
+
+        private void BackButton(object sender, RoutedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+            }
         }
     }
 }

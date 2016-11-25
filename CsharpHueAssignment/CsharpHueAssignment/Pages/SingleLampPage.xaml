@@ -9,16 +9,25 @@
     RequestedTheme="Dark">
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
         <StackPanel>
-            <Button FontFamily="Segoe UI Symbol" FontSize="30" Background="Transparent" Content="&#57618;"/>
+            <Button Click="BackButton" FontFamily="Segoe UI Symbol" FontSize="30" Background="Transparent" Content="&#57618;"/>
         </StackPanel>
         <StackPanel Margin="20,0,20,0">
             <TextBlock Margin="0,10,0,10" Text="Hue" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Name ="HueSlider"/>
+            <Slider Maximum="65535" Name ="HueSlider">
+                <Slider.Background>
+                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
+                        <GradientStop Color="{Binding }" Offset="0"/>
+                    </LinearGradientBrush>
+                </Slider.Background>
+            </Slider>
             <TextBlock Margin="0,10,0,10" Text="Saturation" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Name ="SaturationSlider"/>
+            <Slider Maximum="254" Name ="SaturationSlider"/>
             <TextBlock Margin="0,10,0,10" Text="Brightness" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Name ="BrightnessSlider"/>
+            <Slider Minimum="1" Maximum="254" Name ="BrightnessSlider"/>
+            <TextBlock Margin="0,10,0,10" Text="Colour temperature" FontSize="20" HorizontalAlignment="Center"></TextBlock>
+            <Slider Minimum="153" Maximum="500" Name ="ColorTemperatureSlider"/>
         </StackPanel>
     </StackPanel>
 </Page>
