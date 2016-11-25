@@ -26,5 +26,6 @@ namespace CsharpHueAssignment.Pages
         {
             this.InitializeComponent();
         }
+
     }
 }
