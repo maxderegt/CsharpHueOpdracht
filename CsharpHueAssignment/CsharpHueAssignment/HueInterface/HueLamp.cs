@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 using Microsoft.CSharp.RuntimeBinder;
 
 namespace CsharpHueAssignment.HueInterface
@@ -23,7 +25,8 @@ namespace CsharpHueAssignment.HueInterface
         public string UniqueId { get; set; }
         public int Number { get; set; }
         public Bridge Bridge { get; set; } // The bridge this light belongs to
-
+        public SolidColorBrush RgbColor { get; set; } //rgb value of the color for the button
+        
         public HueLamp(bool isOn, int brightness, int hue, int saturation, int ct, bool reachable, string name, string modelId, string swVersion, string uniqueId, int number, Bridge bridge)
         {
             IsOn = isOn;
@@ -39,6 +42,12 @@ namespace CsharpHueAssignment.HueInterface
             UniqueId = uniqueId;
             Bridge = bridge;
             Number = number;
+            RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(hue, saturation, brightness));
+        }
+
+        public void UpdateRgb()
+        {
+            RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(Hue, Saturation, Brightness));
         }
 
         /// <summary>

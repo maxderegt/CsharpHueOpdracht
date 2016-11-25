@@ -18,7 +18,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="data:HueLamp">
                     <StackPanel HorizontalAlignment="Center">
-                        <Button Background ="RoyalBlue" Margin="10,10,10,10" Content="{x:Bind Name}" FontSize="50" HorizontalAlignment="Stretch" Click="Button_Click"/>
+                        <Button Background ="{x:Bind RgbColor}" Margin="10,10,10,10" Content="{x:Bind Name}" FontSize="50" HorizontalAlignment="Stretch" Click="Button_Click"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

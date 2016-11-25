@@ -66,6 +66,7 @@ namespace CsharpHueAssignment.Pages
             HueLamp.Hue = (int)slider.Value;
             var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
             await Connection.Connection.PutAsync(ip, new { hue = HueLamp.Hue },(message => { }));
+            HueLamp.UpdateRgb();
         }
 
         private async void SaturationSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
@@ -74,6 +75,7 @@ namespace CsharpHueAssignment.Pages
             HueLamp.Saturation = (int)slider.Value;
             var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
             await Connection.Connection.PutAsync(ip, new { sat = HueLamp.Saturation }, (message => { }));
+            HueLamp.UpdateRgb();
         }
 
         private async void BrightnessSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
@@ -82,6 +84,7 @@ namespace CsharpHueAssignment.Pages
             HueLamp.Brightness = (int)slider.Value;
             var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
             await Connection.Connection.PutAsync(ip, new { bri = HueLamp.Brightness }, (message => { }));
+            HueLamp.UpdateRgb();
         }
 
         private async void ColorTemperatureSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
@@ -90,6 +93,16 @@ namespace CsharpHueAssignment.Pages
             HueLamp.Ct = (int)slider.Value;
             var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
             await Connection.Connection.PutAsync(ip, new { ct = HueLamp.Brightness }, (message => { }));
+            HueLamp.UpdateRgb();
+        }
+
+        private void SliderChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (HueLamp != null)
+            {
+                HueLamp.UpdateRgb();
+
+            }
         }
     }
 }

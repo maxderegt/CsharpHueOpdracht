@@ -42,6 +42,12 @@ namespace CsharpHueAssignment.HueInterface
             await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
         }
 
+        public async Task Login(string username)
+        {
+            Username = username;
+            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
+        }
+
         /// <summary>
         /// Create a lamp from the received message, 
         /// and continue to request the next lamp untill there is no more lamps not requested.

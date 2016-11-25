@@ -15,17 +15,11 @@
         </StackPanel>
         <StackPanel Margin="20,0,20,0">
             <TextBlock Margin="0,10,0,10" Text="Hue" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Maximum="65535" PointerCaptureLost="HueSlider_OnPointerCaptureLost" Name ="HueSlider">
-                <Slider.Background>
-                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                        <GradientStop Color="Red" Offset="0"/>
-                    </LinearGradientBrush>
-                </Slider.Background>
-            </Slider>
+            <Slider Maximum="65535" PointerCaptureLost="HueSlider_OnPointerCaptureLost" Name ="HueSlider" Background="{x:Bind HueLamp.RgbColor}" Foreground="{x:Bind HueLamp.RgbColor}" ValueChanged="SliderChanged"/>
             <TextBlock Margin="0,10,0,10" Text="Saturation" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Maximum="254" PointerCaptureLost="SaturationSlider_OnPointerCaptureLost"  Name ="SaturationSlider"/>
+            <Slider Maximum="254" PointerCaptureLost="SaturationSlider_OnPointerCaptureLost"  Name ="SaturationSlider" ValueChanged="SliderChanged"/>
             <TextBlock Margin="0,10,0,10" Text="Brightness" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider PointerCaptureLost="BrightnessSlider_OnPointerCaptureLost" Minimum="1" Maximum="254" Name ="BrightnessSlider"/>
+            <Slider PointerCaptureLost="BrightnessSlider_OnPointerCaptureLost" Minimum="1" Maximum="254" Name ="BrightnessSlider" ValueChanged="SliderChanged"/>
             <TextBlock Margin="0,10,0,10" Text="Colour temperature" FontSize="20" HorizontalAlignment="Center"></TextBlock>
             <Slider PointerCaptureLost="ColorTemperatureSlider_OnPointerCaptureLost"  Minimum="153" Maximum="500" Name ="ColorTemperatureSlider"/>
         </StackPanel>

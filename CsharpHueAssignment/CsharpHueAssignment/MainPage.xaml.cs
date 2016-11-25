@@ -55,5 +55,22 @@ namespace CsharpHueAssignment
                 await messageDialog.ShowAsync();
             }
         }
+
+        private async void ConnectToBridgeLA(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var bridge = new Bridge($"http://145.48.205.33:80");
+                await bridge.Login("iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB");
+                Frame.Navigate(typeof(LampsPage), bridge);
+            }
+            catch (Exception exception)
+            {
+                var messageDialog = new MessageDialog(
+                    /*"The application was unable to connect to the selected bridge..."*/exception.StackTrace,
+                    "Failed to connect to selected bridge");
+                await messageDialog.ShowAsync();
+            }
+        }
     }
 }
