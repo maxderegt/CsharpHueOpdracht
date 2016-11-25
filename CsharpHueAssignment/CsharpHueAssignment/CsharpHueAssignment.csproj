@@ -105,6 +105,9 @@
     <Compile Include="Pages\LampsPage.xaml.cs">
       <DependentUpon>LampsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SingleLampPage.xaml.cs">
+      <DependentUpon>SingleLampPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +136,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\LampsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SingleLampPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
