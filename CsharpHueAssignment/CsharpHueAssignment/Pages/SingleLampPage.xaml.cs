@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Navigation;
 using CsharpHueAssignment.HueInterface;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+// hue 0 - 65535 uint16
+// sat 0 - 254 0 = white 254 = coloured uint8
+// bri 1 - 254 1 = black 254 = coloured uint8
 
 namespace CsharpHueAssignment.Pages
 {

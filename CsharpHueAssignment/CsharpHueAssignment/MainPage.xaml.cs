@@ -45,7 +45,7 @@ namespace CsharpHueAssignment
             {
                 var bridge = new Bridge($"http://localhost:8000");
                 await bridge.SetupUserNameAsync();
-                Frame.Navigate(typeof(LampsPage));
+                Frame.Navigate(typeof(LampsPage),bridge);
             }
             catch (Exception exception)
             {
