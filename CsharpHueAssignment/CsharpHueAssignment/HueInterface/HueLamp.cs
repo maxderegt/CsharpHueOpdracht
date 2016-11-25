@@ -21,8 +21,10 @@ namespace CsharpHueAssignment.HueInterface
         public string ModelId { get; set; }
         public string SwVersion { get; set; }
         public string UniqueId { get; set; }
+        public int Number { get; set; }
+        public Bridge Bridge { get; set; } // The bridge this light belongs to
 
-        public HueLamp(bool isOn, int brightness, int hue, int saturation, int ct, bool reachable, string name, string modelId, string swVersion, string uniqueId)
+        public HueLamp(bool isOn, int brightness, int hue, int saturation, int ct, bool reachable, string name, string modelId, string swVersion, string uniqueId, int number, Bridge bridge)
         {
             IsOn = isOn;
             Brightness = brightness;
@@ -35,6 +37,8 @@ namespace CsharpHueAssignment.HueInterface
             ModelId = modelId;
             SwVersion = swVersion;
             UniqueId = uniqueId;
+            Bridge = bridge;
+            Number = number;
         }
 
         /// <summary>
@@ -43,7 +47,7 @@ namespace CsharpHueAssignment.HueInterface
         /// </summary>
         /// <param name="lampData"></param>
         /// <returns></returns>
-        public static HueLamp ParseLamp(dynamic lampData)
+        public static HueLamp ParseLamp(dynamic lampData, Bridge bridge, int number)
         {
             try
             {
@@ -57,7 +61,9 @@ namespace CsharpHueAssignment.HueInterface
                     (string) lampData.name,
                     (string) lampData.modelid,
                     (string) lampData.swversion,
-                    (string) lampData.uniqueid);
+                    (string) lampData.uniqueid,
+                    number,
+                    bridge);
             }
             catch (Exception)
             {

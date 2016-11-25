@@ -15,10 +15,10 @@
         </StackPanel>
         <StackPanel Margin="20,0,20,0">
             <TextBlock Margin="0,10,0,10" Text="Hue" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Maximum="65535" Name ="HueSlider">
+            <Slider Maximum="65535" PointerCaptureLost="HueSlider_OnPointerCaptureLost" Name ="HueSlider">
                 <Slider.Background>
                     <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
-                        <GradientStop Color="{Binding }" Offset="0"/>
+                        <GradientStop Color="Red" Offset="0"/>
                     </LinearGradientBrush>
                 </Slider.Background>
             </Slider>

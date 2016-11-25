@@ -50,7 +50,7 @@ namespace CsharpHueAssignment.HueInterface
         {
             Debug.WriteLine($"Received lamp data: {message}");
 
-            var lamp = HueLamp.ParseLamp(message);
+            var lamp = HueLamp.ParseLamp(message, this, _lampIndex);
 
             if (lamp == null)
             {

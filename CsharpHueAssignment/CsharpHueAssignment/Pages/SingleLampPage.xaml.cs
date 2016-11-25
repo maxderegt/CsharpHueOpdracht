@@ -50,8 +50,6 @@ namespace CsharpHueAssignment.Pages
             {
                 Debug.WriteLine(exception.StackTrace);   
             }
-
-
         }
 
         private void BackButton(object sender, RoutedEventArgs e)
@@ -60,6 +58,14 @@ namespace CsharpHueAssignment.Pages
             {
                 Frame.GoBack();
             }
+        }
+
+        private async void HueSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
+        {
+            var slider = sender as Slider;
+            HueLamp.Hue = (int)slider.Value;
+            var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
+            await Connection.Connection.PutAsync(ip, new { hue = HueLamp.Hue },(message => { }));
         }
     }
 }
