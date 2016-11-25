@@ -48,7 +48,9 @@ namespace CsharpHueAssignment.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(SingleLampPage),Bridge.Lamps[0]);
+            var templamp = (Button) sender;
+            HueLamp lamp = (HueLamp) templamp.DataContext;
+            Frame.Navigate(typeof(SingleLampPage),lamp);
         }
     }
 }
