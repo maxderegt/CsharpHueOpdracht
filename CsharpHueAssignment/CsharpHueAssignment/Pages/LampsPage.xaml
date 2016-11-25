@@ -10,9 +10,9 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
-            <Button Background ="RoyalBlue"  Height="80" HorizontalAlignment="Right" Width="360" />
-            <TextBlock Text="HUE lamp #1" Margin="80,-80,0,40"/>
-            <TextBlock Text="Hue : .. Sat : .. Brigt : .." Margin="80,-40,0,40"/>
+            <Button Background ="RoyalBlue"  Height="80" HorizontalAlignment="Stretch" Click="Button_Click" />
+            <TextBlock Text="HUE lamp #1" Margin="80,-80,0,40" HorizontalAlignment="Left"/>
+            <TextBlock Text="Hue : .. Sat : .. Brigt : .."  HorizontalAlignment ="Left"  Margin="80,-40,0,40"/>
         </StackPanel>
     </Grid>
 </Page>
