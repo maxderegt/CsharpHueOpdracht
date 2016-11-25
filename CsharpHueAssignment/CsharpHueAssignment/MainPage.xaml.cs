@@ -17,6 +17,7 @@ using Windows.Web.Http;
 using Newtonsoft.Json;
 using CsharpHueAssignment.Connection;
 using CsharpHueAssignment.HueInterface;
+using CsharpHueAssignment.Pages;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -44,6 +45,7 @@ namespace CsharpHueAssignment
             {
                 var bridge = new Bridge($"http://localhost:8000");
                 await bridge.SetupUserNameAsync();
+                Frame.Navigate(typeof(LampsPage));
             }
             catch (Exception exception)
             {
