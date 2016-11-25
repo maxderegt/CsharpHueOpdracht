@@ -66,5 +66,10 @@ namespace CsharpHueAssignment.Pages
         {
             InMultiSelectMode = !InMultiSelectMode;
         }
+
+        private void BlameBartButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
