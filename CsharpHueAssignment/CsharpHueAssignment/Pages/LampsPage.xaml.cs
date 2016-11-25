@@ -39,7 +39,7 @@ namespace CsharpHueAssignment.Pages
             try
             {
                 Bridge = e.Parameter as Bridge;
-                DataContext = Bridge.Lamps;
+                DataContext = this;
             }
             catch (Exception exception)
             {
