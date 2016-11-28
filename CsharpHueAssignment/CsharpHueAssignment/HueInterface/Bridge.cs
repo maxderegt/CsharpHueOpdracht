@@ -53,7 +53,7 @@ namespace CsharpHueAssignment.HueInterface
         /// and continue to request the next lamp untill there is no more lamps not requested.
         /// </summary>
         /// <param name="message"></param>
-        private async void GetLampData(dynamic message)
+        public async void GetLampData(dynamic message)
         {
             Debug.WriteLine($"Received lamp data: {message}");
 

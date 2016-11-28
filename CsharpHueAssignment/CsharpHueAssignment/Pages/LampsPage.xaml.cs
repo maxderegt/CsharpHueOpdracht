@@ -7,6 +7,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CsharpHueAssignment.Connection;
 using CsharpHueAssignment.HueInterface;
 using CsharpHueAssignment.Pages;
 
@@ -27,7 +30,7 @@ namespace CsharpHueAssignment.Pages
     public sealed partial class LampsPage : Page
     {
         public Bridge Bridge;
-        public bool InMultiSelectMode { get; set; }
+        public List<HueLamp> selected = new List<HueLamp>();
 
         public LampsPage()
         {
@@ -51,7 +54,9 @@ namespace CsharpHueAssignment.Pages
         {
             var templamp = (Button) sender;
             HueLamp lamp = (HueLamp) templamp.DataContext;
-            Frame.Navigate(typeof(SingleLampPage),lamp);
+            List<HueLamp> lamps = new List<HueLamp>();
+            lamps.Add(lamp);
+            Frame.Navigate(typeof(SingleLampPage),lamps);
         }
 
         private void BackButton(object sender, RoutedEventArgs e)
@@ -64,12 +69,50 @@ namespace CsharpHueAssignment.Pages
 
         private void CheckBoxButton(object sender, RoutedEventArgs e)
         {
-            InMultiSelectMode = !InMultiSelectMode;
+            //multiple lights change
+            if (selected.Count > 0)
+            {
+                Frame.Navigate(typeof(SingleLampPage), selected);
+            }
+            else
+            {
+                var messageDialog = new MessageDialog(
+                   "No Hue Lights selected",
+                   "No Hue Lights selected");
+                messageDialog.ShowAsync();
+            }
         }
 
         private void BlameBartButton_OnClick(object sender, RoutedEventArgs e)
         {
+            int i = 1;
+            dynamic messag = new
+            {
+                name = "#BlameBart"
+            };
+            foreach (var bridgeLamp in Bridge.Lamps)
+            {
+                Connection.Connection.PutAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/{i}",messag, (HandleMessage)(message => { }));
+                i++;
+            }
             
+            Connection.Connection.GetAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/1", Bridge.GetLampData);
+        }
+        
+        private void SelectionClick(object sender, RoutedEventArgs e)
+        {
+            var templamp = (Button)sender;
+            HueLamp lamp = (HueLamp)templamp.DataContext;
+            if (selected.Contains(lamp))
+            {
+                selected.Remove(lamp);
+                templamp.Content = "";
+            }
+            else
+            {
+                selected.Add(lamp);
+                templamp.Content = "✔";
+            }
         }
     }
 }

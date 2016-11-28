@@ -27,7 +27,7 @@ namespace CsharpHueAssignment.Pages
     /// </summary>
     public sealed partial class SingleLampPage : Page
     {
-        public HueLamp HueLamp { get; set; }
+        public List<HueLamp> lamps { get; set; }
 
         public SingleLampPage()
         {
@@ -39,16 +39,16 @@ namespace CsharpHueAssignment.Pages
         {
             try
             {
-                HueLamp = e.Parameter as HueLamp;
+                lamps = e.Parameter as List<HueLamp>;
 
-                HueSlider.Value = HueLamp.Hue;
-                SaturationSlider.Value = HueLamp.Saturation;
-                BrightnessSlider.Value = HueLamp.Brightness;
-                ColorTemperatureSlider.Value = HueLamp.Ct;
+                HueSlider.Value = lamps[0].Hue;
+                SaturationSlider.Value = lamps[0].Saturation;
+                BrightnessSlider.Value = lamps[0].Brightness;
+                ColorTemperatureSlider.Value = lamps[0].Ct;
             }
             catch (Exception exception)
             {
-                Debug.WriteLine(exception.StackTrace);   
+
             }
         }
 
@@ -63,45 +63,60 @@ namespace CsharpHueAssignment.Pages
         private async void HueSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
-            HueLamp.Hue = (int)slider.Value;
-            var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
-            await Connection.Connection.PutAsync(ip, new { hue = HueLamp.Hue },(message => { }));
-            HueLamp.UpdateRgb();
+            foreach (var HueLamp in lamps)
+            {
+                HueLamp.Hue = (int)slider.Value;
+                var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
+                await Connection.Connection.PutAsync(ip, new { hue = HueLamp.Hue }, (message => { }));
+                HueLamp.UpdateRgb();
+            }
         }
 
         private async void SaturationSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
-            HueLamp.Saturation = (int)slider.Value;
-            var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
-            await Connection.Connection.PutAsync(ip, new { sat = HueLamp.Saturation }, (message => { }));
-            HueLamp.UpdateRgb();
+            foreach (var HueLamp in lamps)
+            {
+                HueLamp.Saturation = (int) slider.Value;
+                var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
+                await Connection.Connection.PutAsync(ip, new {sat = HueLamp.Saturation}, (message => { }));
+                HueLamp.UpdateRgb();
+            }
         }
 
         private async void BrightnessSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
-            HueLamp.Brightness = (int)slider.Value;
-            var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
-            await Connection.Connection.PutAsync(ip, new { bri = HueLamp.Brightness }, (message => { }));
-            HueLamp.UpdateRgb();
+            foreach (var HueLamp in lamps)
+            {
+                HueLamp.Brightness = (int) slider.Value;
+                var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
+                await Connection.Connection.PutAsync(ip, new {bri = HueLamp.Brightness}, (message => { }));
+                HueLamp.UpdateRgb();
+            }
         }
 
         private async void ColorTemperatureSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
-            HueLamp.Ct = (int)slider.Value;
-            var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
-            await Connection.Connection.PutAsync(ip, new { ct = HueLamp.Brightness }, (message => { }));
-            HueLamp.UpdateRgb();
+            foreach (var HueLamp in lamps)
+            {
+                HueLamp.Ct = (int) slider.Value;
+                var ip = $"{HueLamp.Bridge.Ip}/api/{HueLamp.Bridge.Username}/lights/{HueLamp.Number}/state";
+                await Connection.Connection.PutAsync(ip, new {ct = HueLamp.Brightness}, (message => { }));
+                HueLamp.UpdateRgb();
+            }
         }
 
         private void SliderChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if (HueLamp != null)
+            if (lamps != null)
             {
-                HueLamp.UpdateRgb();
+                foreach (var HueLamp in lamps)
+                {
+                    HueLamp.UpdateRgb();
 
+                }
             }
         }
     }
