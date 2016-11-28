@@ -15,7 +15,7 @@ namespace CsharpHueAssignment.HueInterface
 {
     public class Bridge
     {
-        public ObservableCollection<HueLamp> Lamps { get; set; } // A list containing all currently known lamps
+        public ObservableCollection<HueLamp> Lamps { get; set; } // A list containing all currently known Lamps
         public string Username { get; set; }
         public string Ip { get; set; }
         private int _lampIndex; // Used for requesting lamps. Should not be touched by anything else.

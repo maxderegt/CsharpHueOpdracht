@@ -83,20 +83,29 @@ namespace CsharpHueAssignment.Pages
             }
         }
 
-        private void BlameBartButton_OnClick(object sender, RoutedEventArgs e)
+        private async void BlameBartButton_OnClick(object sender, RoutedEventArgs e)
         {
-            int i = 1;
-            dynamic messag = new
+            try
             {
-                name = "#BlameBart"
-            };
-            foreach (var bridgeLamp in Bridge.Lamps)
-            {
-                Connection.Connection.PutAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/{i}",messag, (HandleMessage)(message => { }));
-                i++;
+                int i = 1;
+                dynamic messag = new
+                {
+                    name = "#BlameBart"
+                };
+                foreach (var bridgeLamp in Bridge.Lamps)
+                {
+                    await Connection.Connection.PutAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/{i}", messag,
+                        (HandleMessage) (message => { }));
+                    i++;
+                }
+
+                Bridge.Lamps.Clear(); // Clear the list before adding new lamps
+                await Connection.Connection.GetAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/1", Bridge.GetLampData);
             }
-            
-            Connection.Connection.GetAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/1", Bridge.GetLampData);
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.StackTrace);       
+            }
         }
         
         private void SelectionClick(object sender, RoutedEventArgs e)
