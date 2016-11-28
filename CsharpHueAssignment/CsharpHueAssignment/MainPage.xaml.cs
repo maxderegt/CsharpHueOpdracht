@@ -37,7 +37,7 @@ namespace CsharpHueAssignment
             this.InitializeComponent();
         }
 
-        public async void ConnectToBridgeButton(object sender, RoutedEventArgs args)
+        public async void ConnectToBridgeButtonAsync(object sender, RoutedEventArgs args)
         {
             // TODO add cool windows spinning loading incon, and freeze all other application controls.(probably overlay a transparent panel)
 
@@ -56,7 +56,7 @@ namespace CsharpHueAssignment
             }
         }
 
-        private async void ConnectToBridgeLA(object sender, RoutedEventArgs e)
+        private async void ConnectToLaBridgeAsync(object sender, RoutedEventArgs e)
         {
             try
             {
