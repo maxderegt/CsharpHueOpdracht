@@ -13,21 +13,30 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
             <Button Margin="10,10,0,0" Click="BackButton" FontFamily="Segoe UI Symbol" FontSize="40" Background="Transparent" Content="&#57618;" HorizontalAlignment="Left"/>
             <Button Name="SelectButton" Margin="0,10,10,0" Click="CheckBoxButton" Content="&#xE1EF;" FontSize="40" FontFamily="Segoe UI Symbol" Background="Transparent" HorizontalAlignment="Right"/>
             <Button Name="BlameBartButton" Margin="0,10,70,0" Click="BlameBartButton_OnClick" Content="&#xE11D;" FontSize="40" FontFamily="Segoe UI Symbol" Background="Transparent" HorizontalAlignment="Right"/>
         </Grid>
-        <ListView Name="Lamps" ItemsSource="{x:Bind Bridge.Lamps}" HorizontalAlignment="Stretch" Margin="10,0,10,0">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="data:HueLamp">
-                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                        <Button Background="Transparent" Width="50" Height="50" Margin="10" BorderThickness="2" BorderBrush="White"/>
-                        <Button Background ="{x:Bind RgbColor}" HorizontalContentAlignment="Left" Margin="10,10,10,10" Width="1000" Content="{x:Bind Name}" FontSize="30" Click="Button_Click"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <GridView Name="Lamps" ItemsSource="{x:Bind Bridge.Lamps}" HorizontalAlignment="Stretch">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="data:HueLamp">
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                <Button Background="Transparent" Width="50" Height="50" Margin="10" BorderThickness="2" BorderBrush="White"/>
+                                <Button Background ="{x:Bind RgbColor}" HorizontalContentAlignment="Left" Margin="10,10,10,10" Width="1000" Content="{x:Bind Name}" FontSize="30" Click="Button_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </StackPanel>
+        </ScrollViewer>
+      
+    </Grid>
 </Page>
