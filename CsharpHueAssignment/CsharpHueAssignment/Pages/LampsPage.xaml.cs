@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,6 +41,7 @@ namespace CsharpHueAssignment.Pages
         public LampsPage()
         {
             this.InitializeComponent();
+            SystemNavigationManager.GetForCurrentView().BackRequested += HardwareButton_BackPressed;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -198,6 +200,16 @@ namespace CsharpHueAssignment.Pages
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void HardwareButton_BackPressed(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
         }
     }
 }

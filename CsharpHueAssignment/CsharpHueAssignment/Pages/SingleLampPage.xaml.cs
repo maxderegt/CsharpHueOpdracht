@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking.PushNotifications;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,8 +39,9 @@ namespace CsharpHueAssignment.Pages
 
         public SingleLampPage()
         {
-
             this.InitializeComponent();
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += HardwareButton_BackPressed;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -144,7 +146,8 @@ namespace CsharpHueAssignment.Pages
             }
             else
             {
-                Color=new SolidColorBrush(new Color());
+                ColorPreview.Background = new SolidColorBrush(new Color());
+                HueSlider.Background = new SolidColorBrush(new Color());
             }
         }
 
@@ -168,5 +171,16 @@ namespace CsharpHueAssignment.Pages
             }
             UpdateColours();
         }
+
+        public void HardwareButton_BackPressed(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame != null && rootFrame.CanGoBack)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
+        }
+
     }
 }
