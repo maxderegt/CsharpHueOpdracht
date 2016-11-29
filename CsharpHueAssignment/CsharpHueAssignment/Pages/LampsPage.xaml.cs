@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -31,6 +32,8 @@ namespace CsharpHueAssignment.Pages
     {
         public Bridge Bridge;
         public List<HueLamp> selected = new List<HueLamp>();
+        public bool Disco = false;
+        public MediaElement Element;
 
         public LampsPage()
         {
@@ -100,6 +103,7 @@ namespace CsharpHueAssignment.Pages
                 }
 
                 Bridge.Lamps.Clear(); // Clear the list before adding new lamps
+                selected.Clear();
                 await Connection.Connection.GetAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/1", Bridge.GetLampData);
             }
             catch (Exception exception)
@@ -119,9 +123,56 @@ namespace CsharpHueAssignment.Pages
             }
             else
             {
+                
                 selected.Add(lamp);
-                templamp.Content = "✔";
+                templamp.Content = "✓";
             }
+        }
+
+        private void DiscoButtonClick(object sender, RoutedEventArgs e)
+        {
+            Disco = !Disco;
+            if (Disco)
+            {
+                if (Element == null)
+                {
+                    PlaySound();
+                }
+                Element.Play();
+                DiscoLamp();
+            }
+            else
+            {
+                Element.Stop();
+            }
+        }
+
+        public async void DiscoLamp()
+        {
+            // hue 0 - 65535 uint16
+            // sat 0 - 254 0 = white 254 = coloured uint8
+            // bri 1 - 254 1 = black 254 = coloured uint8
+            Random random = new Random();
+            while (Disco)
+            {
+                foreach (HueLamp lamp in Bridge.Lamps)
+                {
+                    var ip = $"{Bridge.Ip}/api/{Bridge.Username}/lights/{lamp.Number}/state";
+                    await Connection.Connection.PutAsync(ip, new { hue = random.Next(0,65535), sat = random.Next(100,254), bri = random.Next(200,254) }, (message => { }));
+                }
+                await Task.Delay(TimeSpan.FromMilliseconds(500));
+            }
+        }
+
+        public async void PlaySound()
+        {
+            Element = new MediaElement();
+            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+            var file = await folder.GetFileAsync("rickastley_artists.mp3");
+            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            Element.SetSource(stream, "");
+            Element.IsLooping = true;
+
         }
     }
 }
