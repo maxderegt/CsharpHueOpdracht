@@ -69,7 +69,7 @@ namespace CsharpHueAssignment.Pages
             }
         }
 
-        private void CheckBoxButton(object sender, RoutedEventArgs e)
+        private async void CheckBoxButtonAsync(object sender, RoutedEventArgs e)
         {
             //multiple lights change
             if (selected.Count > 0)
@@ -81,7 +81,7 @@ namespace CsharpHueAssignment.Pages
                 var messageDialog = new MessageDialog(
                    "No Hue Lights selected",
                    "No Hue Lights selected");
-                messageDialog.ShowAsync();
+                await messageDialog.ShowAsync();
             }
         }
 

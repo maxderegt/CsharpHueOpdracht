@@ -59,7 +59,7 @@ namespace CsharpHueAssignment
             }
         }
 
-        private async void ConnectToBridgeLA(object sender, RoutedEventArgs e)
+        private async void ConnectToLaBridgeAsync(object sender, RoutedEventArgs e)
         {
             try
             {
