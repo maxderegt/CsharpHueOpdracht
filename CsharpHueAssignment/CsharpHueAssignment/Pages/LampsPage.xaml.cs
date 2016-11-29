@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -28,7 +30,7 @@ namespace CsharpHueAssignment.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LampsPage : Page
+    public sealed partial class LampsPage : Page, INotifyPropertyChanged 
     {
         public Bridge Bridge;
         public List<HueLamp> selected = new List<HueLamp>();
@@ -99,6 +101,13 @@ namespace CsharpHueAssignment.Pages
                 {
                     await Connection.Connection.PutAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/{i}", messag,
                         (HandleMessage) (message => { }));
+                    await Connection.Connection.PutAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/{i}/state", new { hue = 65535, sat = 254, bri = 254 },
+                        (HandleMessage)(message => { }));
+                    bridgeLamp.Hue = 65535;
+                    bridgeLamp.Saturation = 254;
+                    bridgeLamp.Brightness = 254;
+                    await Connection.Connection.PutAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/{i}/state", new { on = true},
+                        (HandleMessage)(message => { }));
                     i++;
                 }
 
@@ -158,8 +167,16 @@ namespace CsharpHueAssignment.Pages
                 foreach (HueLamp lamp in Bridge.Lamps)
                 {
                     var ip = $"{Bridge.Ip}/api/{Bridge.Username}/lights/{lamp.Number}/state";
-                    await Connection.Connection.PutAsync(ip, new { hue = random.Next(0,65535), sat = random.Next(100,254), bri = random.Next(200,254) }, (message => { }));
+                    int Hue = random.Next(0, 65535);
+                    int saturation = random.Next(100, 254);
+                    int bright = random.Next(200, 254);
+                    lamp.Hue = Hue;
+                    lamp.Saturation = saturation;
+                    lamp.Brightness = bright;
+                    lamp.UpdateRgb();
+                    await Connection.Connection.PutAsync(ip, new { hue = Hue, sat = saturation , bri = bright  }, (message => { }));
                 }
+                NotifyPropertyChanged("Lamps");
                 await Task.Delay(TimeSpan.FromMilliseconds(500));
             }
         }
@@ -173,6 +190,14 @@ namespace CsharpHueAssignment.Pages
             Element.SetSource(stream, "");
             Element.IsLooping = true;
 
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
