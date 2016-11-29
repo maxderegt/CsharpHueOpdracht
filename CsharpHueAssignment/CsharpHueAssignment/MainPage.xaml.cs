@@ -41,9 +41,9 @@ namespace CsharpHueAssignment
 
         public async void ConnectToBridgeButtonAsync(object sender, RoutedEventArgs args)
         {
-            if(ProgressRing.IsActive == true) return;
+            if(progressring.IsActive == true) return;
 
-            ProgressRing.IsActive = true;
+            progressring.IsActive = true;
             LaButton.Visibility = Visibility.Collapsed;
             LocalButton.Visibility = Visibility.Collapsed;
 
@@ -60,16 +60,16 @@ namespace CsharpHueAssignment
                     "Failed to connect to selected bridge");
                 LocalButton.Visibility = Visibility.Visible;
                 LaButton.Visibility = Visibility.Visible;
-                ProgressRing.IsActive = false;
+                progressring.IsActive = false;
                 await messageDialog.ShowAsync();
             }
         }
 
         private async void ConnectToLaBridgeAsync(object sender, RoutedEventArgs e)
         {
-            if (ProgressRing.IsActive == true) return;
+            if (progressring.IsActive == true) return;
 
-            ProgressRing.IsActive = true;
+            progressring.IsActive = true;
             LaButton.Visibility = Visibility.Collapsed;
             LocalButton.Visibility = Visibility.Collapsed;
 
@@ -86,7 +86,7 @@ namespace CsharpHueAssignment
                     "Failed to connect to selected bridge");
                 LocalButton.Visibility = Visibility.Visible;
                 LaButton.Visibility = Visibility.Visible;
-                ProgressRing.IsActive = false;
+                progressring.IsActive = false;
                 await messageDialog.ShowAsync();
             }
         }

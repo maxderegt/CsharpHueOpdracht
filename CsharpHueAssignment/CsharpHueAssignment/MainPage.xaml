@@ -15,7 +15,7 @@
                 <Button Margin="0,10,0,10" Content="LA0" Click="ConnectToLaBridgeAsync" HorizontalAlignment="Stretch" Name="LaButton">
                 </Button>
             </StackPanel>
-            <ProgressRing Name="ProgressRing" IsActive="False" Height="100" Width="100"/>
+            <ProgressRing Name="progressring" IsActive="False" Height="100" Width="100"/>
         </StackPanel>
     </Grid>
 </Page>
