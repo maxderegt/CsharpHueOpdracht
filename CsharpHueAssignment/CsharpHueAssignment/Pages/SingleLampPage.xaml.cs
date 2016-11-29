@@ -144,7 +144,7 @@ namespace CsharpHueAssignment.Pages
             }
             else
             {
-                Color=new SolidColorBrush(new Color());
+                Color = new SolidColorBrush(Colors.Black);
             }
         }
 

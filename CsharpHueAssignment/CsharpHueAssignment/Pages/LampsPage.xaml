@@ -14,15 +14,19 @@
         </Style>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Button Margin="10,10,0,0" Click="BackButton" FontFamily="Segoe UI Symbol" FontSize="40" Background="Transparent" Content="&#57618;" HorizontalAlignment="Left"/>
-            <Button Name="SelectButton" Margin="0,10,10,0" Click="CheckBoxButtonAsync" Content="&#xE1EF;" FontSize="40" FontFamily="Segoe UI Symbol" Background="Transparent" HorizontalAlignment="Right"/>
-            <Button Name="BlameBartButton" Margin="0,10,70,0" Click="BlameBartButton_OnClick" Content="&#xE11D;" FontSize="40" FontFamily="Segoe UI Symbol" Background="Transparent" HorizontalAlignment="Right"/>
-            <Button Name="DiscoButton" Margin="0,10,130,0" Click="DiscoButtonClick" Content="&#xE189;" FontSize="40" FontFamily="Segoe UI Symbol" Background="Transparent" HorizontalAlignment="Right"></Button>
+            <CommandBar>
+                <AppBarButton Icon="Audio" Label="Disco" Click="DiscoButtonClick"/>
+                <AppBarButton Icon="Emoji" Label="#BlameBart" Click="BlameBartButton_OnClick"></AppBarButton>
+                <AppBarButton Icon="Go" Label="Edit selected" Click="CheckBoxButtonAsync"/>
+                <AppBarSeparator/>
+                <AppBarButton IsTabStop="True" Label="Back" Icon="Back" Click="BackButton"/>
+            </CommandBar>
         </Grid>
         <ScrollViewer Grid.Row="1">
             <GridView Name="Lamps" ItemsSource="{x:Bind Bridge.Lamps}" HorizontalAlignment="Stretch">
@@ -36,6 +40,5 @@
                 </GridView.ItemTemplate>
             </GridView>
         </ScrollViewer>
-      
     </Grid>
 </Page>
