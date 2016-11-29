@@ -8,24 +8,27 @@
     mc:Ignorable="d"
     RequestedTheme="Dark">
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
-            <Button Margin="10,10,0,0" Click="BackButton" FontFamily="Segoe UI Symbol" FontSize="40" Background="Transparent" Content="&#57618;" HorizontalAlignment="Left"/>
-        </StackPanel>
-        <StackPanel Margin="20,0,20,0">
-            <TextBlock Margin="0,10,0,10" Text="Hue" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Maximum="65535" Foreground="Transparent" IsThumbToolTipEnabled="False" PointerCaptureLost="HueSlider_OnPointerCaptureLostAsync" Name ="HueSlider" ValueChanged="SliderChanged"/>
+        <CommandBar FlowDirection="LeftToRight">
+            <AppBarSeparator/>
+            <AppBarButton Click="BackButton" Icon="Back" Name="Back" Label="Back" />
+        </CommandBar>
+        <ScrollViewer>
+            <StackPanel Margin="20,0,20,0">
+                <TextBlock Margin="0,10,0,10" Text="Hue" FontSize="20" HorizontalAlignment="Center"></TextBlock>
+                <Slider Maximum="65535" Foreground="Transparent" IsThumbToolTipEnabled="False" PointerCaptureLost="HueSlider_OnPointerCaptureLostAsync" Name ="HueSlider" ValueChanged="SliderChanged"/>
             
-            <TextBlock Margin="0,10,0,10" Text="Saturation" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider Maximum="254" IsThumbToolTipEnabled="False" PointerCaptureLost="SaturationSlider_OnPointerCaptureLostAsync"  Name ="SaturationSlider" ValueChanged="SliderChanged"/>
+                <TextBlock Margin="0,10,0,10" Text="Saturation" FontSize="20" HorizontalAlignment="Center"></TextBlock>
+                <Slider Maximum="254" IsThumbToolTipEnabled="False" PointerCaptureLost="SaturationSlider_OnPointerCaptureLostAsync"  Name ="SaturationSlider" ValueChanged="SliderChanged"/>
             
-            <TextBlock Margin="0,10,0,10" Text="Brightness" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider IsThumbToolTipEnabled="False" PointerCaptureLost="BrightnessSlider_OnPointerCaptureLostAsync" Minimum="1" Maximum="254" Name ="BrightnessSlider" ValueChanged="SliderChanged"/>
+                <TextBlock Margin="0,10,0,10" Text="Brightness" FontSize="20" HorizontalAlignment="Center"></TextBlock>
+                <Slider IsThumbToolTipEnabled="False" PointerCaptureLost="BrightnessSlider_OnPointerCaptureLostAsync" Minimum="1" Maximum="254" Name ="BrightnessSlider" ValueChanged="SliderChanged"/>
             
-            <TextBlock Margin="0,10,0,10" Text="Colour temperature" FontSize="20" HorizontalAlignment="Center"></TextBlock>
-            <Slider IsThumbToolTipEnabled="False" PointerCaptureLost="ColorTemperatureSlider_OnPointerCaptureLostAsync"  Minimum="153" Maximum="500" Name ="ColorTemperatureSlider" ValueChanged="SliderChanged"/>
+                <TextBlock Margin="0,10,0,10" Text="Colour temperature" FontSize="20" HorizontalAlignment="Center"></TextBlock>
+                <Slider IsThumbToolTipEnabled="False" PointerCaptureLost="ColorTemperatureSlider_OnPointerCaptureLostAsync"  Minimum="153" Maximum="500" Name ="ColorTemperatureSlider" ValueChanged="SliderChanged"/>
             
-            <ToggleSwitch Toggled="OnOfSwitch_OnToggledAsync" Name="OnOfSwitch"></ToggleSwitch>
-            <StackPanel Name="ColorPreview"  Padding="20,50,20,20"></StackPanel>
-        </StackPanel>
+                <ToggleSwitch Toggled="OnOfSwitch_OnToggledAsync" Name="OnOfSwitch"></ToggleSwitch>
+                <StackPanel Name="ColorPreview"  Padding="20,50,20,20"></StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </StackPanel>
 </Page>
