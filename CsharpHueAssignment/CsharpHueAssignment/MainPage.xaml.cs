@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -33,8 +35,18 @@ namespace CsharpHueAssignment
         public MainPage()
         {
             Bridges = new List<Bridge>();
-
+            PlaySound();
             this.InitializeComponent();
+        }
+
+        public async void PlaySound()
+        {
+            var element = new MediaElement();
+            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+            var file = await folder.GetFileAsync("rickastley_artists.mp3");
+            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            element.SetSource(stream, "");
+            element.Play(); ;
         }
 
         public async void ConnectToBridgeButton(object sender, RoutedEventArgs args)

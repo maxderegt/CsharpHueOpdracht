@@ -100,6 +100,7 @@ namespace CsharpHueAssignment.Pages
                 }
 
                 Bridge.Lamps.Clear(); // Clear the list before adding new lamps
+                selected.Clear();
                 await Connection.Connection.GetAsync($"{Bridge.Ip}/api/{Bridge.Username}/lights/1", Bridge.GetLampData);
             }
             catch (Exception exception)
@@ -119,8 +120,9 @@ namespace CsharpHueAssignment.Pages
             }
             else
             {
+                
                 selected.Add(lamp);
-                templamp.Content = "✔";
+                templamp.Content = "✓";
             }
         }
     }
