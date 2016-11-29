@@ -38,11 +38,13 @@ namespace CsharpHueAssignment
             this.InitializeComponent();
         }
 
-        
-
         public async void ConnectToBridgeButtonAsync(object sender, RoutedEventArgs args)
         {
-            // TODO add cool windows spinning loading incon, and freeze all other application controls.(probably overlay a transparent panel)
+            if(ProgressRing.IsActive == true) return;
+
+            ProgressRing.IsActive = true;
+            LaButton.Visibility = Visibility.Collapsed;
+            LocalButton.Visibility = Visibility.Collapsed;
 
             try
             {
@@ -55,12 +57,21 @@ namespace CsharpHueAssignment
                 var messageDialog = new MessageDialog(
                     /*"The application was unable to connect to the selected bridge..."*/exception.StackTrace,
                     "Failed to connect to selected bridge");
+                LocalButton.Visibility = Visibility.Visible;
+                LaButton.Visibility = Visibility.Visible;
+                ProgressRing.IsActive = false;
                 await messageDialog.ShowAsync();
             }
         }
 
         private async void ConnectToLaBridgeAsync(object sender, RoutedEventArgs e)
         {
+            if (ProgressRing.IsActive == true) return;
+
+            ProgressRing.IsActive = true;
+            LaButton.Visibility = Visibility.Collapsed;
+            LocalButton.Visibility = Visibility.Collapsed;
+
             try
             {
                 var bridge = new Bridge($"http://145.48.205.33:80");
@@ -72,6 +83,9 @@ namespace CsharpHueAssignment
                 var messageDialog = new MessageDialog(
                     /*"The application was unable to connect to the selected bridge..."*/exception.StackTrace,
                     "Failed to connect to selected bridge");
+                LocalButton.Visibility = Visibility.Visible;
+                LaButton.Visibility = Visibility.Visible;
+                ProgressRing.IsActive = false;
                 await messageDialog.ShowAsync();
             }
         }
