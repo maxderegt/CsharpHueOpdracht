@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking.PushNotifications;
+using Windows.UI;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,10 +29,12 @@ namespace CsharpHueAssignment.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SingleLampPage : Page
+    public sealed partial class SingleLampPage : Page, INotifyPropertyChanged
     {
         public List<HueLamp> Lamps { get; set; }
         public HueLamp HueLamp { get; set; }
+        public SolidColorBrush Color { get; set; }
+        public bool On { get; set; }
 
         public SingleLampPage()
         {
@@ -46,6 +52,10 @@ namespace CsharpHueAssignment.Pages
                 SaturationSlider.Value = Lamps[0].Saturation;
                 BrightnessSlider.Value = Lamps[0].Brightness;
                 ColorTemperatureSlider.Value = Lamps[0].Ct;
+                On = Lamps[0].IsOn;
+                OnOfSwitch.IsOn = On;
+
+                UpdateColours();
             }
             catch (Exception exception)
             {
@@ -62,7 +72,7 @@ namespace CsharpHueAssignment.Pages
         }
 
         // TODO integrate these methods into one method
-        private async void HueSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
+        private async void HueSlider_OnPointerCaptureLostAsync(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
             foreach (var hueLamp in Lamps)
@@ -74,7 +84,7 @@ namespace CsharpHueAssignment.Pages
             }
         }
         
-        private async void SaturationSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
+        private async void SaturationSlider_OnPointerCaptureLostAsync(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
             foreach (var hueLamp in Lamps)
@@ -86,7 +96,7 @@ namespace CsharpHueAssignment.Pages
             }
         }
 
-        private async void BrightnessSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
+        private async void BrightnessSlider_OnPointerCaptureLostAsync(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
             foreach (var hueLamp in Lamps)
@@ -98,7 +108,7 @@ namespace CsharpHueAssignment.Pages
             }
         }
 
-        private async void ColorTemperatureSlider_OnPointerCaptureLost(object sender, PointerRoutedEventArgs e)
+        private async void ColorTemperatureSlider_OnPointerCaptureLostAsync(object sender, PointerRoutedEventArgs e)
         {
             var slider = sender as Slider;
             foreach (var hueLamp in Lamps)
@@ -117,9 +127,46 @@ namespace CsharpHueAssignment.Pages
                 foreach (var HueLamp in Lamps)
                 {
                     HueLamp.UpdateRgb();
-
+                    UpdateColours();
                 }
             }
+        }
+
+        private void UpdateColours()
+        {
+            if (On)
+            {
+                Color =
+                    new SolidColorBrush(ColorUtil.HsvToRgb(HueSlider.Value, SaturationSlider.Value,
+                        BrightnessSlider.Value));
+                HueSlider.Background = Color;
+                ColorPreview.Background = Color;
+            }
+            else
+            {
+                Color=new SolidColorBrush(new Color());
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async void OnOfSwitch_OnToggledAsync(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("OnButtonChanged");
+            On = OnOfSwitch.IsOn;
+            foreach (var hueLamp in Lamps)
+            {
+                var ip = $"{hueLamp.Bridge.Ip}/api/{hueLamp.Bridge.Username}/lights/{hueLamp.Number}/state";
+                await Connection.Connection.PutAsync(ip, new { on = On }, (message => { }));
+                hueLamp.UpdateRgb();
+            }
+            UpdateColours();
         }
     }
 }
