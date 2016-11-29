@@ -31,6 +31,8 @@ namespace CsharpHueAssignment.Pages
     {
         public Bridge Bridge;
         public List<HueLamp> selected = new List<HueLamp>();
+        public bool Disco = false;
+        public MediaElement Element;
 
         public LampsPage()
         {
@@ -124,6 +126,39 @@ namespace CsharpHueAssignment.Pages
                 selected.Add(lamp);
                 templamp.Content = "✓";
             }
+        }
+
+        private void DiscoButtonClick(object sender, RoutedEventArgs e)
+        {
+            Disco = !Disco;
+            if (Disco)
+            {
+                if (Element == null)
+                {
+                    PlaySound();
+                }
+                Element.Play();
+            }
+            else
+            {
+                Element.Stop();
+            }
+        }
+
+        public async void DiscoLamp()
+        {
+            
+        }
+
+        public async void PlaySound()
+        {
+            Element = new MediaElement();
+            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+            var file = await folder.GetFileAsync("rickastley_artists.mp3");
+            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            Element.SetSource(stream, "");
+            Element.IsLooping = true;
+
         }
     }
 }
