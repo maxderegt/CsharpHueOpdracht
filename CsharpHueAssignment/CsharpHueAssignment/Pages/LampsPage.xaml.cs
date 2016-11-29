@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -138,6 +139,7 @@ namespace CsharpHueAssignment.Pages
                     PlaySound();
                 }
                 Element.Play();
+                DiscoLamp();
             }
             else
             {
@@ -147,7 +149,19 @@ namespace CsharpHueAssignment.Pages
 
         public async void DiscoLamp()
         {
-            
+            // hue 0 - 65535 uint16
+            // sat 0 - 254 0 = white 254 = coloured uint8
+            // bri 1 - 254 1 = black 254 = coloured uint8
+            Random random = new Random();
+            while (Disco)
+            {
+                foreach (HueLamp lamp in Bridge.Lamps)
+                {
+                    var ip = $"{Bridge.Ip}/api/{Bridge.Username}/lights/{lamp.Number}/state";
+                    await Connection.Connection.PutAsync(ip, new { hue = random.Next(0,65535), sat = random.Next(100,254), bri = random.Next(200,254) }, (message => { }));
+                }
+                await Task.Delay(TimeSpan.FromMilliseconds(500));
+            }
         }
 
         public async void PlaySound()
