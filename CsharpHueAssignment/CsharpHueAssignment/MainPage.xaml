@@ -12,14 +12,14 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
             <CommandBar>
-                <AppBarButton Icon="Add" Label="Add bridge"/>
-                <AppBarButton Icon="Remove" Label="Remove bridge"/>
+                <AppBarButton Icon="Add" Label="Add bridge" Click="AddBridge"/>
             </CommandBar>
             <GridView Margin ="10,10,10,10" HorizontalAlignment="Stretch" Name="BridgeView" ItemsSource="{x:Bind Bridges}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="hueInterface:Bridge">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Width="1000" Margin="0,10,0,10" HorizontalAlignment="Stretch" Click="ConnectToBridgeAsync" Content="{x:Bind Name}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Content="&#xE107;" FontFamily="Segoe UI Symbol" Click="DeleteBridge"/>
+                            <Button Width="1000" Margin="0,10,0,10" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Click="ConnectToBridgeAsync" Content="{x:Bind Name}"/>
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

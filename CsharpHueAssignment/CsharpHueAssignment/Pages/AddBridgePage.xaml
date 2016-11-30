@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="CsharpHueAssignment.Pages.AddBridgePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CsharpHueAssignment.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    RequestedTheme="Dark">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <CommandBar>
+            <AppBarButton Icon="Back" Label="Back" Click="ButtonBase_OnClick"></AppBarButton>
+        </CommandBar>
+        <StackPanel Margin="10,50,10,10" Padding="0,10,0,0">
+            <TextBlock Text="Ip" HorizontalAlignment="Center"/>
+            <TextBox Name="UriTextBox" Margin="10"/>
+            <TextBlock Text="Bridge name" HorizontalAlignment="Center"/>
+            <TextBox Name="BridgeNameTextBox" Margin="10"/>
+            <TextBlock Text="Optional Username" HorizontalAlignment="Center"/>
+            <TextBox Name="UserNameTextBox" Margin="10"/>
+            <Button Content="Add bridge" Click="CreateBridgeAsync" HorizontalAlignment="Center" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Page>

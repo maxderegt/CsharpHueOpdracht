@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -35,11 +36,7 @@ namespace CsharpHueAssignment
 
         public MainPage()
         {
-            Bridges = new ObservableCollection<Bridge>();
             this.InitializeComponent();
-
-            Bridges.Add(new Bridge($"http://localhost:8000", "Local"));
-            Bridges.Add(new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"));
         }
 
         private async void ConnectToBridgeAsync(object sender, RoutedEventArgs e)
@@ -76,6 +73,9 @@ namespace CsharpHueAssignment
             }
             catch (Exception exception)
             {
+                progressring.IsActive = false;
+                BridgeView.Visibility = Visibility.Visible;
+
                 var messageDialog = new MessageDialog("* Check the bridge ip\n* Check the username of the bridge\n","Failed to connect to the bridge");
                 await messageDialog.ShowAsync();
             }
@@ -93,6 +93,46 @@ namespace CsharpHueAssignment
             }
             bridge = null;
             return false;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            try
+            {
+                Bridges = e.Parameter as ObservableCollection<Bridge>;
+                if (Bridges == null)
+                {
+                    Bridges = new ObservableCollection<Bridge>
+                    {
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB")
+                    };
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.StackTrace);
+            }
+        }
+
+        private void AddBridge(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddBridgePage), Bridges);
+        }
+
+        private async void DeleteBridge(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            try
+            {
+                Bridges.Remove(button.DataContext as Bridge);
+            }
+            catch (Exception exception)
+            {
+                var dialog = new MessageDialog("Failed to delete bridge");
+                await dialog.ShowAsync();
+                return;
+            }
         }
     }
 }
