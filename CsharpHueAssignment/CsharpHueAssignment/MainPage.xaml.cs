@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -30,64 +31,68 @@ namespace CsharpHueAssignment
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public List<Bridge> Bridges { get; set; }
+        public ObservableCollection<Bridge> Bridges { get; set; }
 
         public MainPage()
         {
-            Bridges = new List<Bridge>();
+            Bridges = new ObservableCollection<Bridge>();
             this.InitializeComponent();
+
+            Bridges.Add(new Bridge($"http://localhost:8000", "Local"));
+            Bridges.Add(new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"));
         }
 
-        public async void ConnectToBridgeButtonAsync(object sender, RoutedEventArgs args)
+        private async void ConnectToBridgeAsync(object sender, RoutedEventArgs e)
         {
-            if(progressring.IsActive == true) return;
-
-            progressring.IsActive = true;
-            LaButton.Visibility = Visibility.Collapsed;
-            LocalButton.Visibility = Visibility.Collapsed;
-
             try
             {
-                var bridge = new Bridge($"http://localhost:8000");
-                await bridge.SetupUserNameAsync();
-                Frame.Navigate(typeof(LampsPage),bridge);
-            }
-            catch (Exception exception)
-            {
-                var messageDialog = new MessageDialog(
-                    /*"The application was unable to connect to the selected bridge..."*/exception.StackTrace,
-                    "Failed to connect to selected bridge");
-                LocalButton.Visibility = Visibility.Visible;
-                LaButton.Visibility = Visibility.Visible;
-                progressring.IsActive = false;
-                await messageDialog.ShowAsync();
-            }
-        }
+                // display the progress ring
+                if (progressring.IsActive == true) return;
 
-        private async void ConnectToLaBridgeAsync(object sender, RoutedEventArgs e)
-        {
-            if (progressring.IsActive == true) return;
+                progressring.IsActive = true;
+                BridgeView.Visibility = Visibility.Collapsed;
 
-            progressring.IsActive = true;
-            LaButton.Visibility = Visibility.Collapsed;
-            LocalButton.Visibility = Visibility.Collapsed;
+                // Connect to the bridge and get the lamps
+                var button = sender as Button;
+                var bridgeName = button.Content as string;
 
-            try
-            {
-                var bridge = new Bridge($"http://145.48.205.33:80");
-                await bridge.Login("iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB");
+                // Check if bridge is in the list and get it
+                if (!GetBridge(bridgeName, out var bridge))
+                {
+                    // TODO show message
+                    return;
+                }
+
+                // Login to the bridge
+                if (bridge.Username == null)
+                {
+                    await bridge.SetupUserNameAsync();
+                }
+                else
+                {
+                    await bridge.Login(bridge.Username);
+                }
                 Frame.Navigate(typeof(LampsPage), bridge);
             }
             catch (Exception exception)
             {
-                var messageDialog = new MessageDialog(
-                    /*"The application was unable to connect to the selected bridge..."*/exception.StackTrace,
-                    "Failed to connect to selected bridge");
-                LocalButton.Visibility = Visibility.Visible;
-                LaButton.Visibility = Visibility.Visible;
-                progressring.IsActive = false;
+                var messageDialog = new MessageDialog("* Check the bridge ip\n* Check the username of the bridge\n","Failed to connect to the bridge");
                 await messageDialog.ShowAsync();
             }
+        }
+
+        private bool GetBridge(string name, out Bridge bridge)
+        {
+            foreach (var bridgeL in Bridges)
+            {
+                if (bridgeL.Name == name)
+                {
+                    bridge = bridgeL;
+                    return true;
+                }
+            }
+            bridge = null;
+            return false;
         }
     }
 }
