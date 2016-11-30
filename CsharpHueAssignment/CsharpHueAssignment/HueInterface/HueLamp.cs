@@ -47,7 +47,14 @@ namespace CsharpHueAssignment.HueInterface
 
         public void UpdateRgb()
         {
-            RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(Hue, Saturation, Brightness));
+            if (IsOn)
+            {
+                RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(Hue, Saturation, Brightness));
+            }
+            else
+            {
+                RgbColor = new SolidColorBrush(new Color());
+            }
         }
 
         /// <summary>
