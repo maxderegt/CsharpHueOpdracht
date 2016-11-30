@@ -48,7 +48,6 @@ namespace CsharpHueAssignment.HueInterface
         public void UpdateRgb()
         {
             RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(Hue, Saturation, Brightness));
-            NotifyPropertyChanged("RgbColor");
         }
 
         /// <summary>

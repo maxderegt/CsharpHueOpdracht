@@ -191,9 +191,9 @@ namespace CsharpHueAssignment.Pages
                     lamp.Saturation = saturation;
                     lamp.Brightness = bright;
                     lamp.UpdateRgb();
+                    lamp.NotifyPropertyChanged("RgbColor");
                     await Connection.Connection.PutAsync(ip, new { hue = Hue, sat = saturation , bri = bright  }, (message => { }));
                 }
-                NotifyPropertyChanged("RgbColor");
                 await Task.Delay(TimeSpan.FromMilliseconds(500));
             }
         }
