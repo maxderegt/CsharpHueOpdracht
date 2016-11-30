@@ -80,6 +80,7 @@ namespace CsharpHueAssignment.Pages
             if (Frame.CanGoBack)
             {
                 Frame.GoBack();
+                Disco = false;
                 if (Element != null)
                 {
                     Element.Stop();
