@@ -59,6 +59,10 @@ namespace CsharpHueAssignment.Pages
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            if (Disco)
+            {
+                Disco = false;
+            }
             if (Element != null)
             {
                 Element.Stop();
