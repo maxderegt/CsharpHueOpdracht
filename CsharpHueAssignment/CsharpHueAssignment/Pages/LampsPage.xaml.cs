@@ -57,6 +57,15 @@ namespace CsharpHueAssignment.Pages
             }
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (Element != null)
+            {
+                Element.Stop();
+            }
+            base.OnNavigatingFrom(e);
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var templamp = (Button) sender;
@@ -71,6 +80,10 @@ namespace CsharpHueAssignment.Pages
             if (Frame.CanGoBack)
             {
                 Frame.GoBack();
+                if (Element != null)
+                {
+                    Element.Stop();
+                }
             }
         }
 
@@ -92,6 +105,7 @@ namespace CsharpHueAssignment.Pages
 
         private async void BlameBartButton_OnClick(object sender, RoutedEventArgs e)
         {
+            DiscoButton.IsEnabled = false;
             try
             {
                 int i = 1;
@@ -121,6 +135,7 @@ namespace CsharpHueAssignment.Pages
             {
                 Debug.WriteLine(exception.StackTrace);       
             }
+            DiscoButton.IsEnabled = true;
         }
         
         private void SelectionClick(object sender, RoutedEventArgs e)
@@ -178,7 +193,7 @@ namespace CsharpHueAssignment.Pages
                     lamp.UpdateRgb();
                     await Connection.Connection.PutAsync(ip, new { hue = Hue, sat = saturation , bri = bright  }, (message => { }));
                 }
-                NotifyPropertyChanged("Lamps");
+                NotifyPropertyChanged("RgbColor");
                 await Task.Delay(TimeSpan.FromMilliseconds(500));
             }
         }
@@ -204,12 +219,12 @@ namespace CsharpHueAssignment.Pages
 
         public void HardwareButton_BackPressed(object sender, BackRequestedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame != null && rootFrame.CanGoBack)
+            if (Element != null)
             {
-                e.Handled = true;
-                rootFrame.GoBack();
+            Element.Stop();
             }
+            e.Handled = true;
+            BackButton(sender, new RoutedEventArgs());
         }
     }
 }

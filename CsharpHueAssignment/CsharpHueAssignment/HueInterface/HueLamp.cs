@@ -10,7 +10,7 @@ using Microsoft.CSharp.RuntimeBinder;
 
 namespace CsharpHueAssignment.HueInterface
 {
-    public class HueLamp
+    public class HueLamp : INotifyPropertyChanged
     {
         public bool IsOn { get; set; }
         public int Brightness { get; set; }
@@ -48,6 +48,7 @@ namespace CsharpHueAssignment.HueInterface
         public void UpdateRgb()
         {
             RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(Hue, Saturation, Brightness));
+            NotifyPropertyChanged("RgbColor");
         }
 
         /// <summary>
@@ -79,6 +80,14 @@ namespace CsharpHueAssignment.HueInterface
                 return null;
             }
             
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

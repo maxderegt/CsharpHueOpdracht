@@ -108,6 +108,7 @@
     <Compile Include="Pages\SingleLampPage.xaml.cs">
       <DependentUpon>SingleLampPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

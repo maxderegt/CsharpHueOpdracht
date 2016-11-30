@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <CommandBar>
-                <AppBarButton Icon="Audio" Label="Disco" Click="DiscoButtonClick"/>
+                <AppBarButton Name="DiscoButton" Icon="Audio" Label="Disco" Click="DiscoButtonClick"/>
                 <AppBarButton Icon="Emoji" Label="#BlameBart" Click="BlameBartButton_OnClick"></AppBarButton>
                 <AppBarButton Icon="Go" Label="Edit selected" Click="CheckBoxButtonAsync"/>
                 <AppBarSeparator/>
