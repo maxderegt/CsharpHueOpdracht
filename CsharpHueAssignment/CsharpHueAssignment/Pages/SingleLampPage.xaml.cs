@@ -54,7 +54,15 @@ namespace CsharpHueAssignment.Pages
                 SaturationSlider.Value = Lamps[0].Saturation;
                 BrightnessSlider.Value = Lamps[0].Brightness;
                 ColorTemperatureSlider.Value = Lamps[0].Ct;
-                On = Lamps[0].IsOn;
+                if (Lamps.Count > 1)
+                {
+                    On = true;
+                    Everythingon();
+                }
+                else
+                {
+                    On = Lamps[0].IsOn;
+                }
                 OnOfSwitch.IsOn = On;
 
                 UpdateColours();
@@ -62,6 +70,16 @@ namespace CsharpHueAssignment.Pages
             catch (Exception exception)
             {
                 Debug.WriteLine(exception.StackTrace);
+            }
+        }
+
+        public async void Everythingon()
+        {
+            foreach (var hueLamp in Lamps)
+            {
+                var ip = $"{hueLamp.Bridge.Ip}/api/{hueLamp.Bridge.Username}/lights/{hueLamp.Number}/state";
+                await Connection.Connection.PutAsync(ip, new { on = true }, (message => { }));
+                hueLamp.UpdateRgb();
             }
         }
 
@@ -167,6 +185,7 @@ namespace CsharpHueAssignment.Pages
             {
                 var ip = $"{hueLamp.Bridge.Ip}/api/{hueLamp.Bridge.Username}/lights/{hueLamp.Number}/state";
                 await Connection.Connection.PutAsync(ip, new { on = On }, (message => { }));
+                hueLamp.IsOn = On;
                 hueLamp.UpdateRgb();
             }
             UpdateColours();

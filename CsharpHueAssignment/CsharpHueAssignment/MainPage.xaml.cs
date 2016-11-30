@@ -55,9 +55,9 @@ namespace CsharpHueAssignment
                 // Connect to the bridge and get the lamps
                 var button = sender as Button;
                 var bridgeName = button.Content as string;
-
+                Bridge bridge;
                 // Check if bridge is in the list and get it
-                if (!GetBridge(bridgeName, out var bridge))
+                if (!GetBridge(bridgeName, out bridge))
                 {
                     // TODO show message
                     return;
