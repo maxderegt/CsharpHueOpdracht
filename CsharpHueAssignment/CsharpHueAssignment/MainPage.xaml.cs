@@ -48,6 +48,7 @@ namespace CsharpHueAssignment
 
                 progressring.IsActive = true;
                 BridgeView.Visibility = Visibility.Collapsed;
+                commandbar.Visibility = Visibility.Collapsed;
 
                 // Connect to the bridge and get the lamps
                 var button = sender as Button;
@@ -75,6 +76,7 @@ namespace CsharpHueAssignment
             {
                 progressring.IsActive = false;
                 BridgeView.Visibility = Visibility.Visible;
+                commandbar.Visibility = Visibility.Visible;
 
                 var messageDialog = new MessageDialog("* Check the bridge ip\n* Check the username of the bridge\n","Failed to connect to the bridge");
                 await messageDialog.ShowAsync();
@@ -104,6 +106,26 @@ namespace CsharpHueAssignment
                 {
                     Bridges = new ObservableCollection<Bridge>
                     {
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
+                        new Bridge($"http://localhost:8000", "Local"),
+                        new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB"),
                         new Bridge($"http://localhost:8000", "Local"),
                         new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB")
                     };
