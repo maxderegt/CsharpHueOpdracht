@@ -39,7 +39,6 @@ namespace CsharpHueAssignment
             this.InitializeComponent();
 
         }
-
         
         private async void ConnectToBridgeAsync(object sender, RoutedEventArgs e)
         {
