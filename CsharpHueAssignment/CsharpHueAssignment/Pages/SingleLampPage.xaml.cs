@@ -58,6 +58,7 @@ namespace CsharpHueAssignment.Pages
                 {
                     On = true;
                     Everythingon();
+                    EverythingTheSame();
                 }
                 else
                 {
@@ -70,6 +71,16 @@ namespace CsharpHueAssignment.Pages
             catch (Exception exception)
             {
                 Debug.WriteLine(exception.StackTrace);
+            }
+        }
+
+        public async void EverythingTheSame()
+        {
+            foreach(var hueLamp in Lamps)
+            {
+                var ip = $"{hueLamp.Bridge.Ip}/api/{hueLamp.Bridge.Username}/lights/{hueLamp.Number}/state";
+                await Connection.Connection.PutAsync(ip, new { on = true, hue = Lamps[0].Hue, sat = Lamps[0].Saturation, bri = Lamps[0].Brightness }, (message => { }));
+                hueLamp.UpdateRgb();
             }
         }
 

@@ -42,7 +42,14 @@ namespace CsharpHueAssignment.HueInterface
             UniqueId = uniqueId;
             Bridge = bridge;
             Number = number;
-            RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(hue, saturation, brightness));
+            if (isOn)
+            {
+                RgbColor = new SolidColorBrush(ColorUtil.HsvToRgb(hue, saturation, brightness));
+            }
+            else
+            {
+                RgbColor = new SolidColorBrush(new Color());
+            }
         }
 
         public void UpdateRgb()
