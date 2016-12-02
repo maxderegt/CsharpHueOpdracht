@@ -55,15 +55,17 @@ namespace CsharpHueAssignment.Pages
 
         private async void CreateBridgeAsync(object sender, RoutedEventArgs e)
         {
+            Bridge bridge;
+
             if (UriTextBox.Text != "" && BridgeNameTextBox.Text != "")
             {
                 if (UserNameTextBox.Text == "")
                 {
-                    Bridges.Add(new Bridge(UriTextBox.Text, BridgeNameTextBox.Text));
+                    Bridges.Add(bridge = new Bridge(UriTextBox.Text, BridgeNameTextBox.Text));
                 }
                 else
                 {
-                    Bridges.Add(new Bridge(UriTextBox.Text, BridgeNameTextBox.Text, UserNameTextBox.Text));
+                    Bridges.Add(bridge = new Bridge(UriTextBox.Text, BridgeNameTextBox.Text, UserNameTextBox.Text));
                 }
             }
             else
@@ -73,8 +75,8 @@ namespace CsharpHueAssignment.Pages
                 return;
             }
 
+            await DataManager.SaveObjectToXml(bridge, $"bridge_{bridge.Name}_{bridge.Ip}.xml");
             Frame.Navigate(typeof(MainPage), Bridges);
-            return;
         }
     }
 }
