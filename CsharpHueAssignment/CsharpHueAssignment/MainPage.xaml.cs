@@ -126,8 +126,9 @@ namespace CsharpHueAssignment
             var button = sender as Button;
             try
             {
-                Bridges.Remove(button.DataContext as Bridge);
-
+                var bridge = button.DataContext as Bridge;
+                Bridges.Remove(bridge);
+                DataManager.DeleteFileAsync($"bridge_{bridge.Name}.xml");
             }
             catch (Exception exception)
             {

@@ -75,7 +75,7 @@ namespace CsharpHueAssignment.Pages
                 return;
             }
 
-            await DataManager.SaveObjectToXml(bridge, $"bridge_{bridge.Name}_{bridge.Ip}.xml");
+            await DataManager.SaveObjectToXml(bridge, $"bridge_{bridge.Name}.xml");
             Frame.Navigate(typeof(MainPage), Bridges);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,21 @@ namespace CsharpHueAssignment
                     var bridge = await DataManager.ReadObjectFromXmlFileAsync<Bridge>(file.Name);
                     bridges.Add(bridge);
                 }
+            }
+        }
+
+        public static async void DeleteFileAsync(string filename)
+        {
+            try
+            {
+                var folder = ApplicationData.Current.LocalFolder;
+                var file = await folder.GetFileAsync(filename);
+                await file.DeleteAsync();
+            }
+            catch (Exception exception)
+            {
+                // This will error when trying to remove the two default bridges
+                Debug.WriteLine(exception);       
             }
         }
     }
