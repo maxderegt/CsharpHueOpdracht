@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Storage;
+using CsharpHueAssignment.HueInterface;
 
 namespace CsharpHueAssignment
 {
@@ -35,6 +37,21 @@ namespace CsharpHueAssignment
             using (stream)
             {
                 serializer.Serialize(stream, objectToSave);
+            }
+        }
+
+        public static async void LoadData(ObservableCollection<Bridge> bridges)
+        {
+            //creating/looking for folder
+            var folder = ApplicationData.Current.LocalFolder;
+            var files = await folder.GetFilesAsync();
+            foreach (var file in files)
+            {
+                if (file.FileType == ".xml" && file.Name.Contains("bridge_"))
+                {
+                    var bridge = await DataManager.ReadObjectFromXmlFileAsync<Bridge>(file.Name);
+                    bridges.Add(bridge);
+                }
             }
         }
     }

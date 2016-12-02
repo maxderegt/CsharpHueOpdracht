@@ -37,22 +37,6 @@ namespace CsharpHueAssignment
         public MainPage()
         {
             this.InitializeComponent();
-            LoadData();
-        }
-
-        private async void LoadData()
-        {
-            //creating/looking for folder
-            var folder = ApplicationData.Current.LocalFolder;
-            var files = await folder.GetFilesAsync();
-            foreach (var file in files)
-            {
-                if (file.FileType == "xml" && file.Name.Contains("bridge_"))
-                {
-                    Bridge bridge = await DataManager.ReadObjectFromXmlFileAsync<Bridge>(file.Name);
-                    Bridges.Add(bridge);
-                }
-            }
         }
 
         private async void ConnectToBridgeAsync(object sender, RoutedEventArgs e)
@@ -123,6 +107,7 @@ namespace CsharpHueAssignment
                         new Bridge($"http://localhost:8000", "Local"),
                         new Bridge($"http://145.48.205.33:80", "Xplora", "iYrmsQq1wu5FxF9CPqpJCnm1GpPVylKBWDUsNDhB")
                     };
+                    DataManager.LoadData(Bridges);
                 }
             }
             catch (Exception exception)
@@ -142,6 +127,7 @@ namespace CsharpHueAssignment
             try
             {
                 Bridges.Remove(button.DataContext as Bridge);
+
             }
             catch (Exception exception)
             {
