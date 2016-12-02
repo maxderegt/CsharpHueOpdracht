@@ -19,7 +19,7 @@ namespace CsharpHueAssignment.HueInterface
         public string Username { get; set; }
         public string Ip { get; set; }
         public string Name { get; set; }
-        private int _lampIndex; // Used for requesting lamps. Should not be touched by anything else.
+        public int LampIndex; // Used for requesting lamps. Should not be touched by anything else.
 
         /// <summary>
         /// Constructor for the bridge
@@ -28,9 +28,14 @@ namespace CsharpHueAssignment.HueInterface
         {
             Lamps = new ObservableCollection<HueLamp>();
             Name = name;
-            _lampIndex = 1;
+            LampIndex = 1;
             Ip = ip;
             Username = null;
+        }
+
+        public Bridge()
+        {
+            
         }
 
         public Bridge(string ip, string name, string username)
@@ -38,10 +43,9 @@ namespace CsharpHueAssignment.HueInterface
             Lamps = new ObservableCollection<HueLamp>();
             Name = name;
             Username = username;
-            _lampIndex = 1;
+            LampIndex = 1;
             Ip = ip;
         }
-
 
         /// <summary>
         /// Use the currently assigned Ip address in order to request a user name.
@@ -51,13 +55,13 @@ namespace CsharpHueAssignment.HueInterface
         {
             await Connection.Connection.PostAsync($"{Ip}/api", new {devicetype = $"MyApp#HueController"},GetUserName);
 
-            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
+            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{LampIndex}", GetLampData);
         }
 
         public async Task Login(string username)
         {
             Username = username;
-            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
+            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{LampIndex}", GetLampData);
         }
 
         /// <summary>
@@ -69,17 +73,17 @@ namespace CsharpHueAssignment.HueInterface
         {
             Debug.WriteLine($"Received lamp data: {message}");
 
-            var lamp = HueLamp.ParseLamp(message, this, _lampIndex);
+            var lamp = HueLamp.ParseLamp(message, this, LampIndex);
 
             if (lamp == null)
             {
-                _lampIndex = 1;
+                LampIndex = 1;
                 return;
             }
             Lamps.Add(lamp);
 
-            _lampIndex++;
-            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{_lampIndex}", GetLampData);
+            LampIndex++;
+            await Connection.Connection.GetAsync($"{Ip}/api/{Username}/lights/{LampIndex}", GetLampData);
             Debug.WriteLine($"Lamps: {Lamps.Count}");
         }
 
@@ -87,7 +91,7 @@ namespace CsharpHueAssignment.HueInterface
         /// Get the user name from the message.
         /// </summary>
         /// <param name="message"></param>
-        private void GetUserName(dynamic message)
+        public void GetUserName(dynamic message)
         {
             Username = message[0].success.username;
             Debug.WriteLine($"Assigned username: {Username}");
