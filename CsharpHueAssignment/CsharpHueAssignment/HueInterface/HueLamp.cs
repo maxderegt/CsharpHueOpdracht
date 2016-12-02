@@ -25,6 +25,7 @@ namespace CsharpHueAssignment.HueInterface
         public string UniqueId { get; set; }
         public int Number { get; set; }
         public Bridge Bridge { get; set; } // The bridge this light belongs to
+        [System.Xml.Serialization.XmlIgnore]
         public SolidColorBrush RgbColor { get; set; } //rgb value of the color for the button
         
         public HueLamp(bool isOn, int brightness, int hue, int saturation, int ct, bool reachable, string name, string modelId, string swVersion, string uniqueId, int number, Bridge bridge)
@@ -50,6 +51,11 @@ namespace CsharpHueAssignment.HueInterface
             {
                 RgbColor = new SolidColorBrush(new Color());
             }
+        }
+
+        public HueLamp()
+        {
+            
         }
 
         public void UpdateRgb()
